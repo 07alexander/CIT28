@@ -53,3 +53,33 @@ select Buildings.BuildingName, Class_Rooms.ClassRoomID
 from Buildings
 inner join Class_Rooms
 on Buildings.BuildingCode = Class_Rooms.BuildingCode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------
+--Sales Orders Database: #1, #3
+--#1
+select CustLastName, CustFirstName
+from Customers
+left outer join
+(select distinct orders.CustomerID, Orders.OrderDate, Products.ProductName, Products.ProductNumber
+from Orders
+inner join Order_Details
+on Orders.OrderNumber = Order_Details.OrderNumber
+inner join Products
+on  Order_Details.ProductNumber = Products.ProductNumber
+where ProductName like '%helmet%') 
+as R
+on Customers.CustomerID = R.CustomerID
+where R.ProductName is null
