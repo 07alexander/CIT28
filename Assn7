@@ -1,0 +1,75 @@
+--Alexander Phosykeo
+--CIT 28
+--Assignment #7 - Chapter 10
+--Using SQLQFMM2
+
+--Sales Orders Database: #1
+select CustLastName, CustFirstName, ProductName
+from Customers 
+inner join Orders
+on Customers.CustomerID = Orders.CustomerID
+inner join Order_Details 
+on Order_Details.OrderNumber = Orders.OrderNumber
+inner join Products
+on Order_Details.ProductNumber = Products.ProductNumber
+where ProductName like '%helmet%'
+union
+select VendName,'Vendor' as rowID, ProductName 
+from Vendors
+inner join Product_Vendors
+on Vendors.VendorID = Product_Vendors.VendorID
+inner join Products
+on Product_Vendors.ProductNumber = Products.ProductNumber
+where ProductName like '%helmet%'
+
+
+--Entertainment Agency Database:  #1
+select CustLastName as 'Customers and Entertainers'
+from Customers
+union
+select EntStageName as 'Customers and Entertainers'
+from Entertainers
+
+
+--School Scheduling Database: #1
+select StudLastName as LastName, StudFirstName as FirstName, StudZipCode as ZipCode
+from Students
+union
+select StfLastname as LastName, StfFirstName as FirstName, StfZipCode as ZipCode
+from Staff
+order by StudZipCode
+
+--Bowling League Database: #1
+select BowlerLastName, BowlerFirstName, RawScore , TourneyLocation
+from Bowler_Scores
+inner join Bowlers
+on Bowlers.BowlerID = Bowler_Scores.BowlerID
+inner join Tourney_Matches
+on Bowler_Scores.MatchID = Tourney_Matches.MatchID
+inner join Tournaments
+on Tournaments.TourneyID = Tourney_Matches.TourneyID
+where Tournaments.TourneyLocation = 'Thunderbird Lanes' and Bowler_Scores.RawScore >= 165
+union
+select  BowlerLastName, BowlerFirstName, RawScore, TourneyLocation
+from Bowler_Scores
+inner join Bowlers
+on Bowlers.BowlerID = Bowler_Scores.BowlerID
+inner join Tourney_Matches
+on Bowler_Scores.MatchID = Tourney_Matches.MatchID
+inner join Tournaments
+on Tournaments.TourneyID = Tourney_Matches.TourneyID
+where Tournaments.TourneyLocation = 'Bolero Lanes' and Bowler_Scores.RawScore >= 150
+
+
+
+--Recipes Database: #1
+--select IngredientName, MeasurementDescription
+select IngredientName, MeasurementDescription
+from Ingredients
+inner join Measurements
+on Ingredients.MeasureAmountID = Measurements.MeasureAmountID
+
+select RecipeTitle, MeasureAmountID
+from Recipes
+inner join Recipe_Ingredients
+on Recipes.RecipeID = Recipe_Ingredients.RecipeID
