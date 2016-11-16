@@ -1,0 +1,64 @@
+--Alexander Phosykeo
+--CIT 28
+--Assignment #8 - Chapter 11
+--Using SQLQFMM2
+
+--Sales Orders Database: #2
+select *
+from Customers
+where exists 
+(select *
+from Orders
+inner join Order_Details
+on Order_Details.OrderNumber = Orders.OrderNumber
+inner join Products
+on Products.ProductNumber = Order_Details.ProductNumber
+where CategoryID in (2) and Orders.CustomerID = Customers.CustomerID)
+
+
+--Entertainment Agency Database:  #2
+select *
+from Customers
+where exists(
+select *
+from Entertainers
+inner join Engagements
+on Entertainers.EntertainerID = Engagements.EntertainerID
+inner join Entertainer_Styles
+on Entertainer_Styles.EntertainerID = Entertainers.EntertainerID
+where StyleID in (6,11) and Customers.CustomerID = Engagements.CustomerID
+)
+
+
+--School Scheduling Database: #2
+select *
+from Students
+where exists(
+select *
+from Classes
+where TuesdaySchedule in ('true')
+)
+
+
+
+--Bowling League Database: #2
+select *
+from Tournaments
+where exists(
+select *
+from Tourney_Matches
+inner join Match_Games
+on Tourney_Matches.MatchID = Match_Games.MatchID
+where WinningTeamID not in (0,1,2,3,4,5,6,7) and Tournaments.TourneyID = Tourney_Matches.TourneyID
+)
+
+
+
+--Recipes Database: #2
+select RecipeTitle, Preparation
+from Recipes
+where exists(
+select *
+from Ingredients
+where IngredientID in (9) and Recipes.RecipeID=Ingredients.IngredientID)
+
